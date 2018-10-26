@@ -19,3 +19,5 @@ script:
   # protoc-gen-atlas-query-validate is added to the atlas gentool. For now, we can just run
   # tests to ensure that everything works as expected.
   - go test -v ./...
+  - curl -LO --retry 3 https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
+  - sh trigger-travis.sh dkukharau atlas-gentool $TRAVIS_ACCESS_TOKEN xxxxx
