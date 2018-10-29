@@ -13,7 +13,7 @@ install:
   - chmod +x $GOPATH/bin/dep
   - curl -L -s https://github.com/protocolbuffers/protobuf/releases/download/v3.6.1/protoc-3.6.1-linux-x86_64.zip -o protoc.zip
   - unzip protoc.zip
-  - cp ./bin/protoc ./include /usr/local/bin/
+  - sudo cp -r ./bin/protoc ./include /usr/local/bin/
   - make vendor
 
 script:
