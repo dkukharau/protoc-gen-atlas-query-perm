@@ -6,18 +6,23 @@ go:
 env:
   - DEP_VERSION="0.4.1"
 
-before_install:
+addons:
+  apt:
+    packages:
+    - protobuf-compiler
+
+install:
   # Download the binary to bin folder in $GOPATH
   - curl -L -s https://github.com/golang/dep/releases/download/v${DEP_VERSION}/dep-linux-amd64 -o $GOPATH/bin/dep
   # Make the binary executable
   - chmod +x $GOPATH/bin/dep
+  - make vendor
 
 script:
-  - make vendor
-  - make install
-  # NOTE: We will be able to run protoc commands from Travis once
-  # protoc-gen-atlas-query-validate is added to the atlas gentool. For now, we can just run
-  # tests to ensure that everything works as expected.
-  - go test -v ./...
-  - curl -LO --retry 3 https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
-  - sh trigger-travis.sh dkukharau atlas-gentool $TRAVIS_ACCESS_TOKEN xxxxx
+  - make test
+
+deploy:
+  provider: script
+    script:
+      - curl -LO --retry 3 https://raw.github.com/mernst/plume-lib/master/bin/trigger-travis.sh
+      - sh trigger-travis.sh dkukharau atlas-gentool $TRAVIS_ACCESS_TOKEN xxxxx
